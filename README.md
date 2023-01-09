@@ -10,9 +10,8 @@ like `yadm` or `stow`, which in my opinion are not that intuitive.
 Dottr should provide ways to sync, manage and try different dotfiles just by using simple commands and config file. So why don't you take a look?
 
 ## Usage
-`dottr pull` — will pull the latest version from repo
-`dottr push` — will push the latest version to repo from your computer
-`dottr init` — will create dottr repo from pre-defined config
+`dottr preview` — will symlink your current dotfiles into `repo_dir` so, you can see if the paths are configured properly
+`dottr commit` — will commit your dotfile into dottr repo, copying them into and removing from your computer. It will also symlink them back
 
 ## Config (yaml)
 ```yaml
@@ -22,10 +21,7 @@ repo_url: <git url for repo>
 include_config: <bool> # This will tell dottr if .dottr.yaml should be present in repo itself
 
 folders_to_sync: # Array of folders with path relative to your $HOME
-    -   # Entry
-        path: <path to folder>
-        exclude: 
-            - <files or subfolders to exclude from this entry>
+    - <path to folder>
 files_to_sync: # Array of paths to single files relative to your $HOME
     - <path to file>
 ```
