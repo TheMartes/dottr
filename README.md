@@ -11,7 +11,7 @@ Dottr should provide ways to sync, manage and try different dotfiles just by usi
 
 ## Usage
 `dottr preview` — will symlink your current dotfiles into `repo_dir` so, you can see if the paths are configured properly
-`dottr commit` — will commit your dotfile into dottr repo, copying them into and removing from your computer. It will also symlink them back
+`dottr commit` — will commit your dotfiles into dottr repo, copying them into and removing from your computer. It will also symlink them back
 
 ## Config (yaml)
 ```yaml
@@ -25,6 +25,13 @@ folders_to_sync: # Array of folders with path relative to your $HOME
 files_to_sync: # Array of paths to single files relative to your $HOME
     - <path to file>
 ```
+
+## Development
+For development use, please use `Makefile`.
+- `make init` will backup your dottr folder and will create test files
+- `make cleanup` will restore everything back to the normal
+
+- `make install` will install dottr executable into `$GOPATH/bin`
 
 ### Disclaimer
 - This project is unrelated to software that suck less -> https://suckless.org/

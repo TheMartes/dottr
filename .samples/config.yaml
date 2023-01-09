@@ -1,0 +1,9 @@
+---
+repo_dir: .dottr
+repo_url: https://github.com/TheMartes/dottr-test
+include_config: false # This will tell dottr if .dottrrc should be present in repo itself
+
+folders_to_sync: # Array of folders with path relative to your $HOME
+    - .test-dottr
+files_to_sync: # Array of paths to single files relative to your $HOME
+    - .test-dottr-file
