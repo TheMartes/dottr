@@ -47,7 +47,7 @@ func CreateDottrFolder(dottrFolder string) {
 }
 
 func RemoveDottrFolder(dottrFolder string) {
-    err := os.Remove(filepath.Join(GetHomeDirectory(), dottrFolder))
+    err := os.RemoveAll(filepath.Join(GetHomeDirectory(), dottrFolder))
 
     if err != nil {
         log.Fatal(err)

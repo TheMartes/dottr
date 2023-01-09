@@ -1,32 +1,58 @@
 package fileutils
 
 import (
-	"io/fs"
-	"io/ioutil"
-	"log"
+	"fmt"
+	"io"
 	"os"
 )
 
-type FilePermission os.FileMode
-
-// FilePermissions are defined in a way where
-// 1. User (U), Group (G), Others (O) are always first
-// 2. Followed by allowed permissions Read (R), Write (W), Execute (E)
-// e.g. Permissions for user to Read and Group to execute granting nothing to others will be URGE = 0410
-const (
-    URWGROR FilePermission = 0644
-)
-
-func CopyFile(src string, dest string) {
-    bytesRead, err := ioutil.ReadFile(src)
-
+func CopyFile(src string, dest string) (err error) {
+    sfi, err := os.Stat(src)
     if err != nil {
-        log.Fatal(err)
+        return
     }
-
-    err = ioutil.WriteFile(dest, bytesRead, fs.FileMode(URWGROR))
-
+    if !sfi.Mode().IsRegular() {
+        return fmt.Errorf("CopyFile: non-regular source file %s (%q)", sfi.Name(), sfi.Mode().String())
+    }
+    dfi, err := os.Stat(dest)
     if err != nil {
-        log.Fatal(err)
+        if !os.IsNotExist(err) {
+            return
+        }
+    } else {
+        if !(dfi.Mode().IsRegular()) {
+            return fmt.Errorf("CopyFile: non-regular destination file %s (%q)", dfi.Name(), dfi.Mode().String())
+        }
+        if os.SameFile(sfi, dfi) {
+            return
+        }
     }
+    if err = os.Link(src, dest); err == nil {
+        return
+    }
+    err = copyFileContents(src, dest)
+    return
+}
+
+func copyFileContents(src, dest string) (err error) {
+    in, err := os.Open(src)
+    if err != nil {
+        return
+    }
+    defer in.Close()
+    out, err := os.Create(dest)
+    if err != nil {
+        return
+    }
+    defer func() {
+        cerr := out.Close()
+        if err == nil {
+            err = cerr
+        }
+    }()
+    if _, err = io.Copy(out, in); err != nil {
+        return
+    }
+    err = out.Sync()
+    return
 }

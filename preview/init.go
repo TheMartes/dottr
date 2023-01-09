@@ -1,4 +1,4 @@
-package init
+package preview
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"github.com/avakarev/go-symlink"
 )
 
-func InitDottr() {
+func Init() {
     homeDir := dirutils.GetHomeDirectory()
 
     // Check if config exists

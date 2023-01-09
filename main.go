@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	dottrInit "github.com/TheMartes/dottr/init"
+	"github.com/TheMartes/dottr/preview"
 	"github.com/urfave/cli/v2"
 )
 
@@ -14,18 +14,18 @@ func main() {
         Version: "TBD",
         Commands: []*cli.Command{
             {
-                Name:    "init",
-                Usage:   "init dottr into your dotfiles based on the provided config",
+                Name:    "preview",
+                Usage:   "preview dottr structure based on the provided config",
                 Action: func(cCtx *cli.Context) error {
-                    dottrInit.InitDottr()
+                    preview.Init()
                     return nil
                 },
             },
             {
                 Name:    "commit",
-                Usage:   "commit dottr to your dotfiles and reverse the symlinks",
+                Usage:   "commit to dottr. (should be run after you saw preview)",
                 Action: func(cCtx *cli.Context) error {
-                    dottrInit.Commit()
+                    preview.Apply()
                     return nil
                 },
             },
