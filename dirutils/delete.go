@@ -6,8 +6,8 @@ import (
 )
 
 func RemoveFolder(path string) {
-    err := os.Remove(path)
-    if err != nil {
-        log.Fatal(err)
-    }
+	err := os.RemoveAll(path)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
