@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/TheMartes/dottr/config"
 	"github.com/TheMartes/dottr/dirutils"
 	"github.com/avakarev/go-symlink"
 )
@@ -18,7 +17,7 @@ const (
 	SymlinkFromRepo SymlinkWay = "SymlinkFromRepo"
 )
 
-func createSymlinks(folders []config.FoldersToSync, files []string, dottrFolder string, symlinkWay SymlinkWay) {
+func createSymlinks(folders []string, files []string, dottrFolder string, symlinkWay SymlinkWay) {
 	homeDir := dirutils.GetHomeDirectory()
 
 	// Check if dottr folder exists
@@ -38,20 +37,20 @@ func createSymlinks(folders []config.FoldersToSync, files []string, dottrFolder 
 
 		if symlinkWay == SymlinkToRepo {
 			sym = symlink.New(
-				filepath.Join(homeDir, folder.Path),              // Source
-				filepath.Join(homeDir, dottrFolder, folder.Path), // Target
+				filepath.Join(homeDir, folder),              // Source
+				filepath.Join(homeDir, dottrFolder, folder), // Target
 			)
 		} else {
 			sym = symlink.New(
-				filepath.Join(homeDir, dottrFolder, folder.Path), // Target
-				filepath.Join(homeDir, folder.Path),              // Source
+				filepath.Join(homeDir, dottrFolder, folder), // Target
+				filepath.Join(homeDir, folder),              // Source
 			)
 		}
 
 		if err := sym.Link(); err != nil {
-			fmt.Printf("\033[31m not linked:\033[0m %s (%s)\n", err, folder.Path)
+			fmt.Printf("\033[31m not linked:\033[0m %s (%s)\n", err, folder)
 		} else {
-			fmt.Printf("Dir: %s\033[32m linked! \033[0m \n", folder.Path)
+			fmt.Printf("Dir: %s\033[32m linked! \033[0m \n", folder)
 		}
 
 	}

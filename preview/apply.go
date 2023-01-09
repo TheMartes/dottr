@@ -32,8 +32,8 @@ func Apply() {
 	}
 
 	for _, folder := range cfg.FoldersToSync {
-		src := path.Join(dirutils.GetHomeDirectory(), folder.Path)
-		dest := path.Join(dirutils.GetHomeDirectory(), dottrFolder, folder.Path)
+		src := path.Join(dirutils.GetHomeDirectory(), folder)
+		dest := path.Join(dirutils.GetHomeDirectory(), dottrFolder, folder)
 
 		err := dirutils.CopyDirectory(src, dest)
 		if err != nil {
